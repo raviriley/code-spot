@@ -100,7 +100,8 @@ def process_audio():
     response_dict = {
         "timestamp": "2023-10-29T18:00:00.000Z",
         "location": "12.9716° N, 77.5946° E",
-        "emotion": "anxious",
+        "face_emotion": "anxious",
+        "audio_emotion": "anxious",
         "text": transcript,
     }
 
