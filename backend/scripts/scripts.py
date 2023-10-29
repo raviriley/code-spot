@@ -1,7 +1,6 @@
 """Having these commands in a Python file enables them to be run with `poetry run`."""
 from __future__ import annotations
 
-import argparse
 import subprocess
 
 project_folder = "backend"
@@ -88,11 +87,6 @@ def format_lint_test() -> None:
     test()
 
 
-# def debug_function(function_name: str | None = "bud_matcher") -> None:
-#     """Debugs a cloud function."""
-#     parser = argparse.ArgumentParser(description="Input the name of the function to debug.")
-#     parser.add_argument("-t", "--target", type=str, help="the name of the function to debug", required=False)
-#     args = parser.parse_args()
-#     if target := args.target:
-#         function_name = target
-#     subprocess.run(f"functions-framework --target {function_name} --debug ", shell=True, text=True)
+def dev() -> None:
+    """Runs backend in dev mode"""
+    subprocess.run(f"python backend/app.py", shell=True, text=True)

@@ -10,6 +10,9 @@ python = "^3.10"
 flask = "^3.0.0"
 opencv-python = "^4.8.1.78"
 python-dotenv = "^1.0.0"
+pyaudio = "^0.2.13"
+gtts = "^2.4.0"
+pygame = "^2.5.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.2.0"
@@ -65,10 +68,7 @@ test = "scripts.scripts:test"
 t = "scripts.scripts:test"
 format-lint-test = "scripts.scripts:format_lint_test"
 flt = "scripts.scripts:format_lint_test"
-debug = "scripts.scripts:debug_function"
-pyaudio = "^0.2.13"
-gtts = "^2.4.0"
-pygame = "^2.5.2"
+dev = "scripts.scripts:dev"
 
 
 [build-system]
