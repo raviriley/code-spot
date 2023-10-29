@@ -98,8 +98,10 @@ def process_audio():
         continue
 
     response_dict = {
-        "transcript": transcript,
-        "response": "Process completed successfully"
+        "timestamp": "2023-10-29T18:00:00.000Z",
+        "location": "12.9716° N, 77.5946° E",
+        "emotion": "anxious",
+        "text": transcript,
     }
 
     # Return the dictionary as a JSON object
