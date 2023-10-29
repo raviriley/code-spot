@@ -6,7 +6,8 @@ import { useEffect, useState } from "react";
 export type Transcription = {
   timestamp: string;
   location: string;
-  emotion: string;
+  audio_emotion: string;
+  face_emotion: string;
   text: string;
 };
 
@@ -24,7 +25,13 @@ const columns: ColumnDef<Transcription>[] = [
     ),
   },
   {
-    accessorKey: "emotion",
+    accessorKey: "audio_emotion",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Emotion" />
+    ),
+  },
+  {
+    accessorKey: "face_emotion",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Emotion" />
     ),
@@ -56,15 +63,15 @@ export default function TranscriptionTable() {
       // transform the data to match the tableData type
       data.timestamp = data.timestamp || new Date().toLocaleString();
       data.location = data.location || "San Francisco, CA";
-      data.emotion = data.emotion || "N/A";
-      data.text = data.text || data.transcript
+      data.audio_emotion = data.audio_emotion || "N/A";
+      data.face_emotion = data.audio_emotion || "N/A";
 
       // Add the new transcription to tableData
       setTableData((prevData) => [...prevData, data]);
 
       // Update emotions with unique emotions from all transcriptions
       const allEmotions = new Set(
-        tableData.map((transcription) => transcription.emotion),
+        tableData.map((transcription) => transcription.audio_emotion),
       );
       const emotionArray = Array.from(allEmotions).map((emotion) => ({
         label: emotion,
