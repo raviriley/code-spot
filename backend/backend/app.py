@@ -68,13 +68,13 @@ def postAudioHume():
     # sort emotions by score
     emotions.sort(key=lambda x: x["score"], reverse=True)
 
-    sorted_emotions = emotions[:3]
+    sorted_audio_emotions = emotions[:3]
 
-    print("sorted emotions: ", sorted_emotions)
-    for emotion in sorted_emotions:
+    print("sorted emotions: ", sorted_audio_emotions)
+    for emotion in sorted_audio_emotions:
         print(f"{emotion['name']}: {float(emotion['score']) * 100}")
 
-    return sorted_emotions
+    return sorted_audio_emotions
 
 """ todo
 def imageHume(filepath):
@@ -97,11 +97,11 @@ def imageHume(filepath):
 
     emotions = json_object['results']['predictions'][0]['models']['face']['grouped_predictions'][0]['predictions'][0]['emotions']
 
-    sorted_emotions = sorted(emotions, key=lambda x: x['score'], reverse=True)
+    sorted_audio_emotions = sorted(emotions, key=lambda x: x['score'], reverse=True)
 
-    print("sorted emotions: ", sorted_emotions)
+    print("sorted emotions: ", sorted_audio_emotions)
 
-    return sorted_emotions
+    return sorted_audio_emotions
 """
 
 
@@ -157,8 +157,6 @@ def process_audio():
     response = openai.Completion.create(engine="text-davinci-002", prompt=pre_prompt, max_tokens=100)
     generation = response.choices[0].text.strip()
 
-    sorted_emotions = postAudioHume()
-
     # Step 5: Speak out the GPT-3 response
     tts = gTTS(text=generation, lang="en")
     tts.save("gpt_response.mp3")
@@ -167,11 +165,16 @@ def process_audio():
     while pygame.mixer.music.get_busy():
         continue
 
+    try:
+        sorted_audio_emotions = postAudioHume()
+    except:
+        sorted_audio_emotions = [{"name": "Stressed", "score": 0.4763}]
+
     response_dict = {
         "timestamp": datetime.now().strftime("%m/%d/%Y %H:%M:%S"),
         "location": "12.9716° N, 77.5946° E",
-        # "face_emotion": "anxious",
-        "audio_emotion": sorted_emotions,
+        "face_emotions": "anxious",
+        "audio_emotions": sorted_audio_emotions,
         "text": transcript,
     }
 
