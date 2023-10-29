@@ -370,6 +370,25 @@ docs = ["sphinx", "sphinx-autobuild", "sphinx-click", "sphinx-mdinclude", "sphin
 tests = ["pytest (>=7.1.3,<7.2.0)", "pytest-cov", "testfixtures"]
 
 [[package]]
+name = "hume"
+version = "0.4.1"
+description = "Hume AI Python Client"
+optional = false
+python-versions = ">=3.8.1,<4"
+files = [
+    {file = "hume-0.4.1-py3-none-any.whl", hash = "sha256:099408078946334f829a50cb1b743b9440dcef4cbe3f0121fbb6fdc76a493bb2"},
+    {file = "hume-0.4.1.tar.gz", hash = "sha256:03238357521df6d2af77fe9b11f4983a1fd75d6cec7263852e97f2a1d8da7887"},
+]
+
+[package.dependencies]
+requests = ">=2.28.2,<3.0.0"
+typing-extensions = ">=4.3.0,<5.0.0"
+
+[package.extras]
+examples = ["jupyter (>=1.0.0,<2.0.0)", "pydub (>=0.25.1,<0.26.0)"]
+stream = ["websockets (>=10.3,<11.0)"]
+
+[[package]]
 name = "idna"
 version = "3.4"
 description = "Internationalized Domain Names in Applications (IDNA)"
@@ -986,4 +1005,4 @@ watchdog = ["watchdog (>=2.3)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "35c2a92ce8e37d6cd567c79f43a1225afec763931a143284bacfa45ca2a2f08a"
+content-hash = "80f6efe0054c8293f214b5f0a30404313eb4ef17594083ffb4dc394f183e6b46"

@@ -7,7 +7,7 @@ export type Transcription = {
   timestamp: string;
   location: string;
   audio_emotion: string;
-  face_emotion: string;
+  // face_emotion: string;
   text: string;
 };
 
@@ -27,15 +27,15 @@ const columns: ColumnDef<Transcription>[] = [
   {
     accessorKey: "audio_emotion",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Emotion" />
+      <DataTableColumnHeader column={column} title="Audio Emotion" />
     ),
   },
-  {
-    accessorKey: "face_emotion",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Emotion" />
-    ),
-  },
+  // {
+  //   accessorKey: "face_emotion",
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="Facial Emotion" />
+  //   ),
+  // },
   {
     accessorKey: "text",
     header: ({ column }) => (
@@ -64,7 +64,7 @@ export default function TranscriptionTable() {
       data.timestamp = data.timestamp || new Date().toLocaleString();
       data.location = data.location || "San Francisco, CA";
       data.audio_emotion = data.audio_emotion || "N/A";
-      data.face_emotion = data.audio_emotion || "N/A";
+      // data.face_emotion = data.audio_emotion || "N/A";
 
       // Add the new transcription to tableData
       setTableData((prevData) => [...prevData, data]);

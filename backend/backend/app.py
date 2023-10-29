@@ -2,6 +2,7 @@ from datetime import datetime
 import os
 import wave
 
+import json
 import cv2
 import numpy as np
 import openai
@@ -10,9 +11,13 @@ import pygame
 from dotenv import load_dotenv
 from flask import Flask, Response, jsonify
 from gtts import gTTS
+from hume import HumeBatchClient
+from hume.models.config import FaceConfig
+from hume.models.config import ProsodyConfig
 
 app = Flask(__name__)
 
+HUME_API_KEY = "a6nLyAAG6WerOIyqNiaUfdljGEBxPSNpflWtScb0O521e7we"
 
 def generate_frames():
     hog = cv2.HOGDescriptor()
@@ -37,6 +42,67 @@ def generate_frames():
 @app.route("/video")
 def video():
     return Response(generate_frames(), mimetype="multipart/x-mixed-replace; boundary=frame")
+
+
+def postAudioHume():
+
+    client = HumeBatchClient(HUME_API_KEY)
+    filepaths = ["output.wav"]
+    config = ProsodyConfig()
+    job = client.submit_job(None, [config], files=filepaths)
+
+    print(job)
+    print("Running...")
+
+    details = job.await_complete()
+
+    results = job.get_predictions()
+
+    # Extract the top emotion
+    print(results)
+    # json_string = results.strip('[]')
+    # json_object = json.loads(json_string)
+    # emotions = json_object['results']['predictions'][0]['models']['prosody']['grouped_predictions'][0]['predictions'][0]['emotions']
+    emotions = results[0]["results"]["predictions"][0]["models"]["prosody"]["grouped_predictions"][0]["predictions"][0]["emotions"]
+
+    # sort emotions by score
+    emotions.sort(key=lambda x: x["score"], reverse=True)
+
+    sorted_emotions = emotions[:3]
+
+    print("sorted emotions: ", sorted_emotions)
+    for emotion in sorted_emotions:
+        print(f"{emotion['name']}: {float(emotion['score']) * 100}")
+
+    return sorted_emotions
+
+""" todo
+def imageHume(filepath):
+
+    client = HumeBatchClient(HUME_API_KEY)
+    filepaths = ["output.jpg"]
+    config = FaceConfig()
+    job = client.submit_job(None, [config], files=filepaths)
+
+    print(job)
+    print("Running...")
+
+    details = job.await_complete()
+
+    results = job.get_predictions()
+
+    # Extract the top emotion
+    json_string = results.strip('[]')
+    json_object = json.loads(json_string)
+
+    emotions = json_object['results']['predictions'][0]['models']['face']['grouped_predictions'][0]['predictions'][0]['emotions']
+
+    sorted_emotions = sorted(emotions, key=lambda x: x['score'], reverse=True)
+
+    print("sorted emotions: ", sorted_emotions)
+
+    return sorted_emotions
+"""
 
 
 @app.route("/process_audio", methods=["GET"])
@@ -68,6 +134,7 @@ def process_audio():
     stream.stop_stream()
     stream.close()
     p.terminate()
+    print("Recording finished")
 
     wf = wave.open(WAVE_OUTPUT_FILENAME, "wb")
     wf.setnchannels(CHANNELS)
@@ -90,6 +157,8 @@ def process_audio():
     response = openai.Completion.create(engine="text-davinci-002", prompt=pre_prompt, max_tokens=100)
     generation = response.choices[0].text.strip()
 
+    sorted_emotions = postAudioHume()
+
     # Step 5: Speak out the GPT-3 response
     tts = gTTS(text=generation, lang="en")
     tts.save("gpt_response.mp3")
@@ -101,8 +170,8 @@ def process_audio():
     response_dict = {
         "timestamp": datetime.now().strftime("%m/%d/%Y %H:%M:%S"),
         "location": "12.9716° N, 77.5946° E",
-        "face_emotion": "anxious",
-        "audio_emotion": "anxious",
+        # "face_emotion": "anxious",
+        "audio_emotion": sorted_emotions,
         "text": transcript,
     }
 
