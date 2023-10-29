@@ -9,7 +9,7 @@ export default function Audio() {
       console.log("fetching audio");
       const response = await fetch("/api/audio");
       const data = await response.json();
-      //   console.log(data);
+      console.log(data);
       setAudio(data);
     } catch (error) {
       console.log(error);
