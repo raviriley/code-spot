@@ -97,7 +97,13 @@ def process_audio():
     while pygame.mixer.music.get_busy():
         continue
 
-    return jsonify({"response": "Process completed successfully"})
+    response_dict = {
+        "transcript": transcript,
+        "response": "Process completed successfully"
+    }
+
+    # Return the dictionary as a JSON object
+    return jsonify(response_dict)
 
 
 if __name__ == "__main__":
