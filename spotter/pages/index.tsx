@@ -20,7 +20,7 @@ const transcriptions: Transcription[] = [
     timestamp: "11/01/2023 12:00",
     name: "Ravi",
     emotion: "happy",
-    desc: "Ravi is not asking for help",
+    text: "testing testing I am not asking for help",
   },
 ];
 

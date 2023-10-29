@@ -6,7 +6,7 @@ export type Transcription = {
   timestamp: string;
   name: string;
   emotion: string;
-  desc: string;
+  text: string;
 };
 
 const columns: ColumnDef<Transcription>[] = [
@@ -29,9 +29,9 @@ const columns: ColumnDef<Transcription>[] = [
     ),
   },
   {
-    accessorKey: "desc",
+    accessorKey: "text",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Description" />
+      <DataTableColumnHeader column={column} title="Transcription" />
     ),
   },
 ];
