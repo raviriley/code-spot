@@ -167,15 +167,29 @@ def process_audio():
 
     try:
         sorted_audio_emotions = postAudioHume()
+        face_emotion = [{"name": "Stressed", "score": 0.4763}]
     except:
         sorted_audio_emotions = [{"name": "Stressed", "score": 0.4763}]
+        face_emotion = [{"name": "Stressed", "score": 0.4763}]
+
+    urgency_level = 8
+
+
+    summary_prompt = f'''
+    SPOT robots are identifying survivors in war torn areas and are sending visual and auditory data to remote a paramedic team. Act as the summariser for the paramedic team. The data being sent has an audio transcription of the survivor ({transcript}), a facial emotion analysis using HUME and confidences({sorted_audio_emotions}), a auditory emotion analysis using HUME and confidences ({face_emotion}), and urgency level ({urgency_level}). Generate a summary that can provide brief actionable insights to this paramedic team. ideate and come up with a nice actionable summary for the paramedics team. your job is to solely act as the summariser.
+    '''
+    
+    summary = openai.Completion.create(engine="text-davinci-002", prompt=summary_prompt, max_tokens=800)
+    summary = summary.choices[0].text.strip()
 
     response_dict = {
         "timestamp": datetime.now().strftime("%m/%d/%Y %H:%M:%S"),
         "location": "12.9716° N, 77.5946° E",
-        "face_emotions": "anxious",
+        "face_emotions": face_emotion,
         "audio_emotions": sorted_audio_emotions,
         "text": transcript,
+        "urgency_level": urgency_level,
+        "summary": summary,
     }
 
     # Return the dictionary as a JSON object
