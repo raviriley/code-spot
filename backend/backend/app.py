@@ -1,3 +1,4 @@
+from datetime import datetime
 import os
 import wave
 
@@ -98,7 +99,7 @@ def process_audio():
         continue
 
     response_dict = {
-        "timestamp": "2023-10-29T18:00:00.000Z",
+        "timestamp": datetime.now().strftime("%m/%d/%Y %H:%M:%S"),
         "location": "12.9716° N, 77.5946° E",
         "face_emotion": "anxious",
         "audio_emotion": "anxious",
