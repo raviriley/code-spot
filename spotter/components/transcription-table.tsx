@@ -2,14 +2,31 @@ import { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "@/components/data-table/column-header";
 import { DataTable } from "@/components/data-table/data-table";
 import { useEffect, useState } from "react";
+import { Badge } from "./ui/badge";
 
 export type Transcription = {
   timestamp: string;
   location: string;
-  audio_emotion: string;
-  // face_emotion: string;
+  audio_emotions: { name: string; score: number }[];
+  face_emotions: { name: string; score: number }[];
   text: string;
 };
+
+const transcriptionData: Transcription[] = [
+  {
+    timestamp: "2021-08-01 12:00:00",
+    location: "San Francisco, CA",
+    audio_emotions: [
+      { name: "happiness", score: 0.9 },
+      { name: "sadness", score: 0.1 },
+    ],
+    face_emotions: [
+      { name: "happiness", score: 0.9 },
+      { name: "sadness", score: 0.1 },
+    ],
+    text: "I'm so happy sad to see you!",
+  },
+];
 
 const columns: ColumnDef<Transcription>[] = [
   {
@@ -25,17 +42,35 @@ const columns: ColumnDef<Transcription>[] = [
     ),
   },
   {
-    accessorKey: "audio_emotion",
+    accessorKey: "audio_emotions",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Audio Emotion" />
+      <DataTableColumnHeader column={column} title="Audio Emotions" />
+    ),
+    cell: ({ row }) => (
+      <div>
+        {row.getValue("audio_emotions").map((emotion) => (
+          <Badge key={emotion.name} variant={"secondary"} className="mr-1">
+            {emotion.name}: {emotion.score.toFixed(2)}
+          </Badge>
+        ))}
+      </div>
     ),
   },
-  // {
-  //   accessorKey: "face_emotion",
-  //   header: ({ column }) => (
-  //     <DataTableColumnHeader column={column} title="Facial Emotion" />
-  //   ),
-  // },
+  {
+    accessorKey: "face_emotions",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Audio Emotions" />
+    ),
+    cell: ({ row }) => (
+      <div>
+        {row.getValue("face_emotions").map((emotion) => (
+          <Badge key={emotion.name} variant={"secondary"} className="mr-1">
+            {emotion.name}: {emotion.score.toFixed(2)}
+          </Badge>
+        ))}
+      </div>
+    ),
+  },
   {
     accessorKey: "text",
     header: ({ column }) => (
@@ -50,7 +85,8 @@ type Emotion = {
 };
 
 export default function TranscriptionTable() {
-  const [tableData, setTableData] = useState<Transcription[]>([]); // Initialized with an empty array
+  const [tableData, setTableData] =
+    useState<Transcription[]>(transcriptionData); // Initialized with an empty array
   const [emotions, setEmotions] = useState<Emotion[]>([]); // Initialized with an empty array
 
   const fetchAudio = async () => {
@@ -63,15 +99,17 @@ export default function TranscriptionTable() {
       // transform the data to match the tableData type
       data.timestamp = data.timestamp || new Date().toLocaleString();
       data.location = data.location || "San Francisco, CA";
-      data.audio_emotion = data.audio_emotion || "N/A";
-      // data.face_emotion = data.audio_emotion || "N/A";
+      data.audio_emotions = data.audio_emotions || [];
+      data.face_emotions = data.face_emotions || [];
 
       // Add the new transcription to tableData
       setTableData((prevData) => [...prevData, data]);
 
       // Update emotions with unique emotions from all transcriptions
       const allEmotions = new Set(
-        tableData.map((transcription) => transcription.audio_emotion),
+        tableData.flatMap((transcription) =>
+          transcription.audio_emotions.map((emotion) => emotion.name),
+        ),
       );
       const emotionArray = Array.from(allEmotions).map((emotion) => ({
         label: emotion,
