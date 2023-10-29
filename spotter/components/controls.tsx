@@ -164,7 +164,9 @@ export default function Controls() {
         <div className="flex-1 space-y-1">
           <p className="text-sm font-medium leading-none">Robot Status</p>
         </div>
-        <Badge className="justify-right">{controlsDisabled ? "firing motors..." : status}</Badge>
+        <Badge className="justify-right">
+          {controlsDisabled ? "firing motors..." : status}
+        </Badge>
       </div>
     </>
   );

@@ -38,7 +38,7 @@ def video():
     return Response(generate_frames(), mimetype="multipart/x-mixed-replace; boundary=frame")
 
 
-@app.route("/process_audio", methods=["POST"])
+@app.route("/process_audio", methods=["GET"])
 def process_audio():
     load_dotenv()
     os.getenv("OPENAI_API_KEY")
