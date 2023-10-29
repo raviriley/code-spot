@@ -15,15 +15,6 @@ import TranscriptionTable, {
 } from "@/components/transcription-table";
 import Controls from "@/components/controls";
 
-const transcriptions: Transcription[] = [
-  {
-    timestamp: "11/01/2023 12:00",
-    name: "Ravi",
-    emotion: "happy",
-    text: "testing testing I am not asking for help",
-  },
-];
-
 export default function Home() {
   return (
     <>
@@ -58,7 +49,7 @@ export default function Home() {
         </CardHeader>
         <CardContent>
           <ScrollArea className="h-72 w-full rounded-">
-            <TranscriptionTable data={transcriptions} />
+            <TranscriptionTable />
           </ScrollArea>
         </CardContent>
       </Card>
