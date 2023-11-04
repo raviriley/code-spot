@@ -17,7 +17,7 @@ from hume.models.config import ProsodyConfig
 
 app = Flask(__name__)
 
-HUME_API_KEY = "a6nLyAAG6WerOIyqNiaUfdljGEBxPSNpflWtScb0O521e7we"
+HUME_API_KEY = ""
 
 def generate_frames():
     hog = cv2.HOGDescriptor()
