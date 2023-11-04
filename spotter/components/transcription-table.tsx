@@ -27,7 +27,7 @@ export type Transcription = {
 
 const transcriptionData: Transcription[] = [
   {
-    timestamp: "2021-08-01 12:00:00",
+    timestamp: "2023-10-29 12:00:00",
     location: "San Francisco, CA",
     audio_emotions: [
       { name: "happiness", score: 0.9 },
