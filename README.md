@@ -41,7 +41,7 @@
 
 ## Running the stack:
 
-First, clone this repo. If you don't have access to a Spot, you can still demo the entire frontend and AI part of the app locally, as long as you provide your OpenAI API key as an environment variable.
+First, clone this repo. If you don't have access to a Spot, you can still demo the entire frontend and AI part of the app locally, as long as you provide your OpenAI and Hume.ai API keys as an environment variables.
 
 ### backend
 1. install Poetry
