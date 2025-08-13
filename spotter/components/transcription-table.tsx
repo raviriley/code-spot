@@ -33,12 +33,11 @@ const transcriptionData: Transcription[] = [
       { name: "happiness", score: 0.9 },
       { name: "sadness", score: 0.1 },
     ],
-    face_emotions: [
-      { name: "happiness", score: 0.88 },
-    ],
+    face_emotions: [{ name: "happiness", score: 0.88 }],
     text: "I'm so happy sad to see you!",
     urgency_level: 1,
-    summary: "This person is happy sad to see you. There's no urgent situation here.",
+    summary:
+      "This person is happy sad to see you. There's no urgent situation here.",
   },
 ];
 
@@ -102,8 +101,7 @@ const columns: ColumnDef<Transcription>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Summary" />
     ),
-  }
-  
+  },
 ];
 
 type Emotion = {
@@ -170,13 +168,22 @@ export default function TranscriptionTable() {
           <AlertDialogHeader>
             <AlertDialogTitle>Capturing audio...</AlertDialogTitle>
             <AlertDialogDescription>
-              We are receiving your audio input, and replying using text-to-speech and GPT-4.
-              <br /><br />Then, we&apos;re sending your audio input to Hume for processing and transcription.
-              <br /><br />After that we use the processed data to calculate an urgency level and summary of your situation for first responders.
+              We are receiving your audio input, and replying using
+              text-to-speech and GPT-4.
+              <br />
+              <br />
+              Then, we&apos;re sending your audio input to Hume for processing
+              and transcription.
+              <br />
+              <br />
+              After that we use the processed data to calculate an urgency level
+              and summary of your situation for first responders.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogAction onClick={() => setIsOpen(false)}>Continue</AlertDialogAction>
+            <AlertDialogAction onClick={() => setIsOpen(false)}>
+              Continue
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
